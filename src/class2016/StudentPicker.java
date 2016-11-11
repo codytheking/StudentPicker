@@ -140,8 +140,8 @@ public class StudentPicker extends Application
 		grid.add(welcomeText, 0, 1);
 
 		ObservableList<String> options =
-				FXCollections.observableArrayList("Period 2", "Period 3",
-						"Period 4", "Period 5", "Period 6");
+				FXCollections.observableArrayList("Period 0", "Period 1", "Period 2", "Period 3",
+						"Period 4", "Period 5", "Period 6", "Period 7", "Period 8");
 
 		final ComboBox<String> perComboBox = new ComboBox<>(options);
 		grid.add(perComboBox, 0, 2);
