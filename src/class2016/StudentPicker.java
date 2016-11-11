@@ -19,17 +19,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -77,38 +71,29 @@ public class StudentPicker extends Application
 
 		//Top Menu Bar
 		/*MenuBar menuBar = new MenuBar();
-
 	    Menu menu1 = new Menu("Menu");
-
 	    MenuItem menuItemA = new MenuItem("Item A");
 	    menuItemA.setOnAction(new EventHandler<ActionEvent>() {
-
 	        @Override public void handle(ActionEvent e) {
 	            System.out.println("Item A Clicked");
 	        }
 	    });
-
 	    MenuItem menuItemB = new MenuItem("Item B");
 	    menuItemB.setOnAction(new EventHandler<ActionEvent>() {
-
 	        @Override public void handle(ActionEvent e) {
 	            System.out.println("Item B Clicked");
 	        }
 	    });
-
 	    MenuItem menuItemC = new MenuItem("Item C");
 	    menuItemC.setOnAction(new EventHandler<ActionEvent>() {
-
 	        @Override public void handle(ActionEvent e) {
 	            System.out.println("Item C Clicked");
 	        }
 	    });
-
 	    menu1.getItems().add(menuItemA);
 	    menu1.getItems().add(menuItemB);
 	    menu1.getItems().add(menuItemC);
 	    menuBar.getMenus().add(menu1);
-
 	    menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
 	    grid.getChildren().add(menuBar);
 	    primaryStage.setScene(scene);
@@ -122,10 +107,8 @@ public class StudentPicker extends Application
 
 		/*MenuBar menuBar = new MenuBar();
 		menuBar.useSystemMenuBarProperty().set(true);
-
 		Menu menu = new Menu("java");
 		MenuItem item = new MenuItem("Test");
-
 		menu.getItems().add(item);
 		menuBar.getMenus().add(menu);*/
 
@@ -197,6 +180,12 @@ public class StudentPicker extends Application
 					catch (IOException e)
 					{
 						e.printStackTrace();
+					}
+
+					if(names.get(0).equals("ERROR"))
+					{
+						message.setText("Please pick a valid period.");
+						return;
 					}
 
 					Random r = new Random();
@@ -283,7 +272,20 @@ public class StudentPicker extends Application
 	// post: returns ArrayList of student names
 	public static List<String> names(String file) throws IOException
 	{
-		Scanner inFile = new Scanner(new File(file));
+		Scanner inFile = null;
+
+		try
+		{
+			inFile = new Scanner(new File(file));
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+			List<String> err = new ArrayList<>();
+			err.add("ERROR");
+			return err;
+		}
+
 		List<String> names = new ArrayList<>();
 
 		while(inFile.hasNext())
