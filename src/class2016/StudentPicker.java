@@ -1,5 +1,7 @@
 package class2016;
 
+import de.codecentric.centerdevice.*;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,6 +15,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,6 +28,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -75,7 +79,7 @@ public class StudentPicker extends Application
 
 		// Top Menu Bar
 		MenuBar menuBar = new MenuBar();
-		Menu menu1 = new Menu("java");
+		Menu menu1 = new Menu("Help");
 		final String os = System.getProperty("os.name");
 
 		MenuItem menuItemA = new MenuItem("About");
@@ -98,7 +102,6 @@ public class StudentPicker extends Application
 
 		grid.getChildren().add(menuBar);
 		primaryStage.setScene(scene);
-
 
 
 		// Text for displaying student names (or error messages)
