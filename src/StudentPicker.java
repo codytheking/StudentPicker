@@ -6,9 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 import javafx.application.Application;
@@ -46,22 +44,14 @@ import javafx.stage.Stage;
  * 	-Minor fixes
  * 	-Still crashes occasionally	
  * 
- * v2.0 beta
+ * v2.0 beta Feb 2018
  * 	-Class reorganization
  * 	-Working on fixing crashes	
  */
 
 public class StudentPicker extends Application
 {
-	public int num;
-	public List<String> names;
 	public final Text MESSAGE = new Text();
-	
-	public StudentPicker()
-	{
-		num = 0;
-		names = new ArrayList<String>();
-	}
 
 	// pre: none
 	// post: sets up gui window
@@ -154,10 +144,11 @@ public class StudentPicker extends Application
 	// post: performs picks and prints name
 	public void pickActions(ComboBox<String> perComboBox)
 	{
-		int studentNum = 0;
+		int num = 0;
 		String namesFile = "";
 		String callableFile = "";
 		List<Integer> callable = null;
+		List<String> names = null;
 		MESSAGE.setFill(Color.FIREBRICK);
 
 		if(perComboBox.getValue() == null)
@@ -170,10 +161,8 @@ public class StudentPicker extends Application
 			namesFile = "period" + period(perComboBox.getValue()) + ".txt";
 			callableFile = "period" + period(perComboBox.getValue()) + "_called.txt";
 			
-			// array with nums able to be picked
+			// ArrayList with nums able to be picked
 			callable = getCallable(callableFile);
-			int len = callable.size();
-			studentNum = callable.get(len - 1);
 
 			// ArrayList with student names
 			names = getNames(namesFile);
@@ -184,88 +173,37 @@ public class StudentPicker extends Application
 				return;
 			}
 
-			boolean found = true;
-			boolean spec = false;
-			boolean call = false;
-			int over = 0;
-
 			// if only one name left to pick, pick it
-			if(callable.size() == names.size() - 1)
+			if(callable.size() == 1)
 			{
-				for(int j = 0; j < names.size(); j++)
-				{
-					call = false;
-
-					for(int k = 0; k < callable.size(); k++)
-					{
-						if(callable.get(k) == j)
-						{
-							call = true;
-							break;
-						}
-					}
-
-					if(!call)
-					{
-						num = j;
-						break;
-					}
-				}
+				num = 0;
 			}
 
-			// keep picking random numbers until new
-			// student is picked so a student won't
-			// get picked more frequently than others
-			//if(!call)
+			// pick a random student who hasn't been called yet
 			else
             {
-				do
-				{
-					found = false;
-					num = (int) (names.size() * Math.random());
-
-					for(int j = 0; j < callable.size(); j++)
-					{
-						if(callable.get(j) == num)
-						{
-							found = true;
-						}
-					}
-				}
-				while(found);
+				num = (int) (callable.size() * Math.random());
 			}
 
 			// print picked name
-			MESSAGE.setText(names.get(num));
+			MESSAGE.setText(names.get(callable.get(num)));
 
-			// put picked index in array, with other
-			// already picked indices.
-			callable.set(studentNum, num);
-			studentNum++;
+			// remove index so it doesn't get called again
+			callable.remove(num);
 
 			// if all names have been called, reset
 			// and start picking from entire list.
-			if(studentNum >= names.size())
-			{
-				studentNum = 0;
-				
-				for(int i = 0; i < callable.size(); i++)
+			if(callable.size() == 0)
+			{	
+				resetCallableFile(callableFile, names.size());
+				for(int i = 0; i < names.size(); i++)
 				{
-					callable.set(i, -1);
+					callable.add(i);
 				}
-			}
-
-			// took too long to find name, added picked name
-			// to reset list.
-			if(spec)
-			{
-				callable.set(studentNum, over);
-				studentNum++;
-				spec = false;
 			}
 		}
 
-		// update file with picked indices.
+		// update file with indices able to be picked.
 		store_called(callable, callableFile);
 	}
 
@@ -384,6 +322,27 @@ public class StudentPicker extends Application
 		grid.add(verText, 0, 3);
 
 		aboutStage.show();
+	}
+	
+	public void resetCallableFile(String file, int len)
+	{	
+		try
+		{
+			Writer writer = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(file), "utf-8"));
+
+			for(int i = 0; i < len; i++)
+			{
+				writer.write(i + "\n");
+			}
+
+			writer.close();
+		}
+
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args)
