@@ -252,10 +252,19 @@ public class StudentPicker extends Application
 			try 
 			{
 				f.createNewFile();
+				
+				try 
+				{
+					inFile = new Scanner(new File(file));
+				} 
+				catch (FileNotFoundException e1) 
+				{
+					e1.printStackTrace();
+				}
 			} 
-			catch (IOException e1) 
+			catch (IOException e2) 
 			{
-				e1.printStackTrace();
+				e2.printStackTrace();
 			}
 		}
 
