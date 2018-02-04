@@ -44,9 +44,11 @@ import javafx.stage.Stage;
  * 	-Minor fixes
  * 	-Still crashes occasionally	
  * 
- * v2.0 beta Feb 2018
+ * v2.0 Feb 2018
  * 	-Class reorganization
- * 	-Working on fixing crashes	
+ * 	-Checks that names file exists
+ * 	-Automatically creates callable file
+ * 	-No more crashes
  */
 
 public class StudentPicker extends Application
@@ -263,9 +265,7 @@ public class StudentPicker extends Application
 				}
 			} 
 			catch (IOException e2) 
-			{
-				e2.printStackTrace();
-			}
+			{}
 		}
 
 		List<Integer> nums = new ArrayList<Integer>();
