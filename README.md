@@ -6,7 +6,7 @@ It will go through the entire list before picking the same name again.
 
 ## Usage
 
-Download StudentPicker.jar and create a .txt file named period<period number>.txt in the root of your project folder, where period number is an integer number (1, 3, etc.)
+Download StudentPicker.jar and create a .txt file named period<period number>.txt in the root of your project folder, where period number is an integer number (1, 3, etc.). This text file should have a name on each line.
 
 Launch the program and start picking!
 
