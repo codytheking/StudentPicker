@@ -160,7 +160,14 @@ public class StudentPicker extends Application
 		{
 			namesFile = "period" + period(perComboBox.getValue()) + ".txt";
 			callableFile = "period" + period(perComboBox.getValue()) + "_called.txt";
-			
+
+			// make sure files exist
+			if(!fileExists(namesFile))
+			{
+				MESSAGE.setText("No file found with names.");
+				return;
+			}
+
 			// ArrayList with nums able to be picked
 			callable = getCallable(callableFile);
 
@@ -173,24 +180,6 @@ public class StudentPicker extends Application
 				return;
 			}
 
-			// if only one name left to pick, pick it
-			if(callable.size() == 1)
-			{
-				num = 0;
-			}
-
-			// pick a random student who hasn't been called yet
-			else
-            {
-				num = (int) (callable.size() * Math.random());
-			}
-
-			// print picked name
-			MESSAGE.setText(names.get(callable.get(num)));
-
-			// remove index so it doesn't get called again
-			callable.remove(num);
-
 			// if all names have been called, reset
 			// and start picking from entire list.
 			if(callable.size() == 0)
@@ -201,6 +190,15 @@ public class StudentPicker extends Application
 					callable.add(i);
 				}
 			}
+
+			// pick a random student who hasn't been called yet
+			num = (int) (callable.size() * Math.random());
+
+			// print picked name
+			MESSAGE.setText(names.get(callable.get(num)));
+
+			// remove index so it doesn't get called again
+			callable.remove(num);
 		}
 
 		// update file with indices able to be picked.
@@ -248,11 +246,21 @@ public class StudentPicker extends Application
 		} 
 		catch (FileNotFoundException e) 
 		{
-			e.printStackTrace();
+			File f = new File("./" + file);
+			f.getParentFile().mkdirs(); 
+			
+			try 
+			{
+				f.createNewFile();
+			} 
+			catch (IOException e1) 
+			{
+				e1.printStackTrace();
+			}
 		}
-		
+
 		List<Integer> nums = new ArrayList<Integer>();
-		
+
 		String str = "";
 
 		while(inFile.hasNext())
@@ -323,7 +331,7 @@ public class StudentPicker extends Application
 
 		aboutStage.show();
 	}
-	
+
 	public void resetCallableFile(String file, int len)
 	{	
 		try
@@ -344,7 +352,14 @@ public class StudentPicker extends Application
 			e.printStackTrace();
 		}
 	}
-	
+
+	public boolean fileExists(String file)
+	{
+		File f = new File(file);
+
+		return (f.exists() && !f.isDirectory());
+	}
+
 	public static void main(String[] args)
 	{
 		launch(args);
