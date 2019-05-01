@@ -14,7 +14,7 @@ Launch the program and start picking!
 
 ## Downloads
 
-[Version 2.0 (Feb 3, 2018)](https://github.com/codytheking/StudentPicker/raw/master/downloads/StudentPicker_v2.0.zip)
+[Version 2.0 (Feb 3, 2018)](https://github.com/codytheking/StudentPicker/releases/tag/2.0)
 
 ## Contributing
 
